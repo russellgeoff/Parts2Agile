@@ -13,11 +13,10 @@ import os
 import re
 import sys
 
-merger = PdfFileMerger()
-
-dir = "D:\\Desktop\\ECO80476 - Tip and Shaft"
+dir = "D:\\Desktop\\ECO80476 - Tip and Shaft\\"
 #dir = raw_input("What is the directory?") #Assumes both part drawings and inspection standards are in the same directory
-#startPage = int(raw_input("Which page should the inspection standard start on? "))
+startPage = 1
+#startPage = int(raw_input("Which page should the inspection standard start after? "))
 
 partFilename = []
 inspFilename = []
@@ -43,7 +42,23 @@ for filename in os.listdir(dir):
 for part in partFilename:
     for insp in inspFilename:
         if part[:8] == insp[:8]: #Matches part and rev to merge
+            merger = PdfFileMerger()
+            partPath = dir + part
+            inspPath = dir + insp
+
+            partPDF = open(partPath, "rb")
+            inspPDF = open(inspPath, "rb")
+
+            merger.append(fileobj=partPDF, pages=(0,startPage))
+            merger.append(fileobj=inspPDF)
+
+            output = open("D:\\Desktop\\Test\\%s.pdf" %part[:8], "wb")
+            merger.write(output)
             print "Merged %s and %s" %(part, insp)
+            partPDF.close()
+            inspPDF.close()
+            output.close()
+
 
 
 
