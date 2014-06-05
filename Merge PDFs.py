@@ -1,6 +1,6 @@
 """Script to merge a range of inspection standards
 Input:
-    inputPathectory of parts and inspection standards
+    Directory of parts and inspection standards
     Page where inspection standards should start
 Output
     Each part drawing is merged with the corresponding inspection standard
@@ -13,13 +13,13 @@ import sys
 import zipfile
 
 inputPath = "D:\\Desktop\\Test ECO\\"
-#inputPath = raw_input("What is the inputPathectory?") #Assumes both part drawings and inspection standards are in the same inputPathectory
+#inputPath = raw_input("What is the inputPathectory?") #Assumes both part drawings and inspection standards are in the same directory
 startPage = 1
 #startPage = int(raw_input("Which page should the inspection standard start after? "))
 
-outputPath = "%sOutput\\" % inputPath #inputPathectory to place all the processed files
+outputPath = "%sOutput\\" % inputPath #Directory to place all the processed files (defaults to an output folder inside the input path
 
-if not os.path.exists(outputPath): #Checks to see if output inputPathectory exists and makes it if it does not
+if not os.path.exists(outputPath): #Checks to see if output directory exists and makes it if it does not
     os.makedirs(outputPath)
 
 partPdfFilenameArray = [] #Storage for the part filenames
@@ -84,8 +84,8 @@ for partPath in outPdfFilenameArray:
                 zf = zipfile.ZipFile("%s%s.zip" %(outputPath, part[:8]), mode="w")
                 try:
                     zf.write(outputPath + part, part)
-                    zf.write(inputPath + excel, excel)
-                    zf.write(inputPath + igs, igs)
+                    zf.write(excelPath, excel)
+                    zf.write(igsPath, igs)
                 finally:
                     zf.close()
 
