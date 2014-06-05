@@ -41,21 +41,21 @@ for filename in os.listdir(inputPath):
     if re.match(expression, root):  #Checks to see that it starts with the expected part number and rev
         if ext == ".pdf": #Collects all PDFs
             if ("Inspection Standard" in root): #Picks inspection standard out of file names
-                inspPdfFilenameArray.append(filename)
+                inspPdfFilenameArray.append(inputPath + filename)
             else:   #Picks part out of file names
-                partPdfFilenameArray.append(filename)
+                partPdfFilenameArray.append(inputPath + filename)
         elif ext == ".xlsx" or ext == ".xls":
-            inspExlFilenameArray.append(filename)
+            inspExlFilenameArray.append(inputPath + filename)
         elif ext == ".igs" or ext == ".iges":
-            partIgsFilenameArray.append(filename)
+            partIgsFilenameArray.append(inputPath + filename)
 
 #Cycles through the both the inspection standards and parts to find a match
-for part in partPdfFilenameArray:
-    for insp in inspPdfFilenameArray:
+for partPath in partPdfFilenameArray:
+    for inspPath in inspPdfFilenameArray:
+        part = os.path.split(partPath)[1]
+        insp = os.path.split(inspPath)[1]
         if part[:8] == insp[:8]: #Matches part and rev to merge
             merger = PdfFileMerger()
-            partPath = inputPath + part
-            inspPath = inputPath + insp
 
             partPDF = open(partPath, "rb")
             inspPDF = open(inspPath, "rb")
@@ -72,18 +72,20 @@ for part in partPdfFilenameArray:
             print "Merged %s and %s" %(part, insp)
 
 #Finds the matching part drawing, inspection standard, and igs file and merges together in a zip file
-for partpath in outPdfFilenameArray:
-    for excel in inspExlFilenameArray:
-        for igs in partIgsFilenameArray:
-            part = os.path.split(partpath)[1]
+for partPath in outPdfFilenameArray:
+    for excelPath in inspExlFilenameArray:
+        for igsPath in partIgsFilenameArray:
+            part = os.path.split(partPath)[1]
+            igs = os.path.split(igsPath)[1]
+            excel = os.path.split(excelPath)[1]
             if part[:8] == excel [:8] == igs[:8]:
                 print "Made zip of Part: %s Excel: %s IGES: %s" %(part, excel, igs)
 
                 zf = zipfile.ZipFile("%s%s.zip" %(outputPath, part[:8]), mode="w")
                 try:
+                    zf.write(outputPath + part, part)
                     zf.write(inputPath + excel, excel)
                     zf.write(inputPath + igs, igs)
-                    zf.write(outputPath + part, part)
                 finally:
                     zf.close()
 
