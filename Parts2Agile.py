@@ -11,6 +11,14 @@ import os
 import re
 import sys
 import zipfile
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
+
+#Runs Program
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    dialog = QFileDialog()
+    dialog.exec_()
 
 inputPath = "D:\\Desktop\\Test ECO\\"
 #inputPath = raw_input("What is the inputPathectory?") #Assumes both part drawings and inspection standards are in the same directory
@@ -71,7 +79,7 @@ for partPath in partPdfFilenameArray:
             merger.write(output)
             print "Merged %s and %s" %(part, insp)
 
-#Finds the matching part drawing, inspection standard, and igs file and merges together in a zip file
+#Finds the matching part drawing, inspection standard, and IGES file and merges together in a zip file
 for partPath in outPdfFilenameArray:
     for excelPath in inspExlFilenameArray:
         for igsPath in partIgsFilenameArray:
