@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{23b49fe4-0b24-40da-8949-855f90d71243}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>Parts2Agile.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+    <InterpreterVersion />
+    <PtvsTargetsFile>$(VSToolsPath)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+    <VSToolsPath Condition=" '$(VSToolsPath)' == '' ">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Excel2PDF.py" />
+    <Compile Include="Parts2Agile.py" />
+    <Compile Include="PyPDF2\filters.py" />
+    <Compile Include="PyPDF2\generic.py" />
+    <Compile Include="PyPDF2\merger.py" />
+    <Compile Include="PyPDF2\pagerange.py" />
+    <Compile Include="PyPDF2\pdf.py" />
+    <Compile Include="PyPDF2\utils.py" />
+    <Compile Include="PyPDF2\xmp.py" />
+    <Compile Include="PyPDF2\_version.py" />
+    <Compile Include="PyPDF2\__init__.py" />
+    <Compile Include="UploadFiles.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="PyPDF2" />
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+</Project>
