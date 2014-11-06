@@ -20,14 +20,14 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     inputDir = QFileDialog.getExistingDirectory(None, 
                                            "Open Directory",
-                                           "D:\\Desktop\\ECO82393 - Shaft Flange",
+                                           "D:\\Desktop\\",
                                            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)  
 
 if inputDir == "":
     sys.exit(0)
 #inputPath = raw_input("What is the inputPathectory?") #Assumes both part drawings and inspection standards are in the same directory
-startPage = 1
-#startPage = int(raw_input("Which page should the inspection standard start after? "))
+#startPage = 1
+startPage = int(raw_input("Which page should the inspection standard start after? "))
 
 outputPath = "%s\\Output\\" % inputDir #Directory to place all the processed files (defaults to an output folder inside the input path
 
@@ -90,6 +90,7 @@ for partPath in partPdfFilenameArray:
 
             output = open(outPdfFilename, "wb")
             merger.write(output)
+            output.close()
             print "Merged %s and %s" %(part, insp)
 
 #Finds the matching part drawing, inspection standard, and IGES file and merges together in a zip file
@@ -102,11 +103,17 @@ for partPath in outPdfFilenameArray:
             if part[:8] == excel [:8] == igs[:8]:
                 print "Made zip of Part: %s Excel: %s IGES: %s" %(part, excel, igs)
 
-                zf = zipfile.ZipFile("%s%s.zip" %(outputPath, part[:8]), mode="w")
-                try:
+                with zipfile.ZipFile("%s%s.zip" %(outputPath, part[:8]), mode="w") as zf:
                     zf.write(outputPath + part, part)
                     zf.write(excelPath, excel)
                     zf.write(igsPath, igs)
-                finally:
                     zf.close()
+
+                #zf = zipfile.ZipFile("%s%s.zip" %(outputPath, part[:8]), mode="w")
+                #try:
+                #    zf.write(outputPath + part, part)
+                #    zf.write(excelPath, excel)
+                #    zf.write(igsPath, igs)
+                #finally:
+                #    zf.close()
 
